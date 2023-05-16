@@ -1,7 +1,10 @@
 #include "leds.h"
+#include <stdio.h>
 
 static uint16_t *puerto_virtual;
+
 #define INDEX_OFFSET 1
+#define INDEX_MAX 8
 #define FIRST_BIT 1
 #define ALL_LEDS_OFF 0X0000
 #define ALL_LEDS_ON 0XFFFF
@@ -9,7 +12,11 @@ static uint16_t *puerto_virtual;
 // Utilizo una funcion que el compilaror la va a expandir porque es muy corta. Tb podría ser inline
 
 uint16_t indexToMask(uint8_t led){
-    return (FIRST_BIT << (led-INDEX_OFFSET));
+    if (ledsCheckValidLed(led)) {
+        return (FIRST_BIT << (led-INDEX_OFFSET));
+    } else {
+        printf("Error en rango del led: %d\n", led);
+    }        
 }
 
 void ledsInit(uint16_t * direccion){
@@ -18,11 +25,19 @@ void ledsInit(uint16_t * direccion){
 }
 
 void ledsTurnOnSingle(int led) {
-    *puerto_virtual |= indexToMask(led);    
+    if (ledsCheckValidLed(led)) {
+        *puerto_virtual |= indexToMask(led);
+    } else {
+        printf("Error en rango del led: %d\n", led);
+    }    
 }
 
 void ledsTurnOffSingle(int led) {
-    *puerto_virtual &= ~indexToMask(led);    
+    if (ledsCheckValidLed(led)) {
+        *puerto_virtual &= ~indexToMask(led);    
+    } else {
+        printf("Error en rango del led: %d\n", led);
+    }    
 }
 
 void ledsTurnOnAll(void) {
@@ -34,7 +49,11 @@ void ledsTurnOffAll(void) {
 }
 
 bool ledsGetStateSingle(int led) {
-    return (indexToMask(led) & *puerto_virtual);
+    if (ledsCheckValidLed(led)) {
+        return (indexToMask(led) & *puerto_virtual);
+    } else {
+        printf("Error en rango del led: %d\n", led);
+    }        
 }
 
 bool ledsGetStateAllOn(void){
@@ -43,4 +62,8 @@ bool ledsGetStateAllOn(void){
 
 bool ledsGetStateAllOff(void){
     return (*puerto_virtual == ALL_LEDS_OFF);
+}
+
+bool ledsCheckValidLed(int led){
+    return (led < INDEX_OFFSET || led > INDEX_MAX)? false : true;
 }

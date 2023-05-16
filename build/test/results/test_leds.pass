@@ -24,15 +24,15 @@
   :message: ''
   :unity_test_time: 0
 - :test: test_apagar_un_led_consultar_apagado
-  :line: 57
+  :line: 58
   :message: ''
   :unity_test_time: 0
 - :test: test_prender_todos_leds_consultar_prendidos
-  :line: 65
+  :line: 67
   :message: ''
   :unity_test_time: 0
 - :test: test_apagar_todos_leds_consultar_apagados
-  :line: 74
+  :line: 76
   :message: ''
   :unity_test_time: 0
 :failures: []
@@ -42,5 +42,7 @@
   :passed: 8
   :failed: 0
   :ignored: 0
-:stdout: []
-:time: 0.005428456999652553
+:stdout:
+- 'Error en rango del led: 9'
+- 'Error en rango del led: 9'
+:time: 0.0030413700005738065
