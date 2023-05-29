@@ -11,7 +11,7 @@ static uint16_t *puerto_virtual;
 
 
 static bool ledsCheckValidLed(int led){
-    return (led < INDEX_OFFSET || led > INDEX_MAX)? false : true;
+    return !(led < INDEX_OFFSET || led > INDEX_MAX);
 }
 
 // Utilizo una funcion que el compilador la va a expandir porque es muy corta. Tb podría ser inline
