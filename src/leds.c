@@ -9,9 +9,13 @@ static uint16_t *puerto_virtual;
 #define ALL_LEDS_OFF 0X0000
 #define ALL_LEDS_ON 0XFFFF
 
-// Utilizo una funcion que el compilaror la va a expandir porque es muy corta. Tb podría ser inline
 
-uint16_t indexToMask(uint8_t led){
+static bool ledsCheckValidLed(int led){
+    return (led < INDEX_OFFSET || led > INDEX_MAX)? false : true;
+}
+
+// Utilizo una funcion que el compilador la va a expandir porque es muy corta. Tb podría ser inline
+static uint16_t indexToMask(uint8_t led){
     if (ledsCheckValidLed(led)) {
         return (FIRST_BIT << (led-INDEX_OFFSET));
     } else {
@@ -62,8 +66,4 @@ bool ledsGetStateAllOn(void){
 
 bool ledsGetStateAllOff(void){
     return (*puerto_virtual == ALL_LEDS_OFF);
-}
-
-bool ledsCheckValidLed(int led){
-    return (led < INDEX_OFFSET || led > INDEX_MAX)? false : true;
 }
