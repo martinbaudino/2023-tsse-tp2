@@ -15,6 +15,4 @@ bool ledsGetStateSingle(int led);
 bool ledsGetStateAllOn(void);
 bool ledsGetStateAllOff(void);
 
-bool ledsCheckValidLed(int led);
-
 #endif
